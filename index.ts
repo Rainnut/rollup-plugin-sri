@@ -1,3 +1,4 @@
+////////////////////////////////////////////////////////////////////////////////
 import { Element, load } from 'cheerio'
 import { Plugin, ResolvedConfig } from 'vite'
 // import fetch from 'node:node-fetch'
@@ -6,9 +7,24 @@ import { createHash } from 'node:crypto'
 import { resolve } from 'path'
 import { OutputBundle } from 'rollup'
 
-export default function sri(): Plugin {
+type Options = {
+  base: string
+  build: {
+    outDir: string
+  }
+  logger?: any
+}
+
+export default function sri(
+  options = {
+    base: '',
+    build: {
+      outDir: '',
+    },
+  }
+): Plugin {
   // rollup.config 必须填options，vite自动获取options
-  let config: ResolvedConfig
+  let config: Options = options
   const bundle: OutputBundle = {}
 
   return {
